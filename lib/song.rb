@@ -29,7 +29,7 @@ def self.create
   song
   end 
   
-  
+
   
   def self.create_by_name(name)
     song = self.new
@@ -38,17 +38,29 @@ def self.create
     song
   end
   
+ 
+ 
   def self.find_by_name(name)
-    @@songs.create_by_name.find {|song| song == name }
-  end
-  
+     @@all.find {|song| song.name == name}
+end
+
 
   
-  def self.name
+  
+  def self.find_or_create_by_name(name)
+    if find_by_name(name) 
+       find_by_name(name)
+    else 
+        create_by_name(name) 
+    end
 end
   
-  # def self.destroy_all
-  #   @all.all.clear
-  # end
+  
+  
+  
+  def self.alphabetical
+    @@all.map {|songs| songs.name}.sort
+  end 
+  
 
 end
