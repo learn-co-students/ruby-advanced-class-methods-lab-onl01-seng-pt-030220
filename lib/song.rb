@@ -1,3 +1,5 @@
+require 'pry'
+
 class Song
   attr_accessor :name, :artist_name
   
@@ -48,19 +50,55 @@ end
   
   
   def self.find_or_create_by_name(name)
-    if find_by_name(name) 
-       find_by_name(name)
-    else 
-        create_by_name(name) 
-    end
-end
+   find_by_name(name) || create_by_name(name)
+  end
   
   
   
   
   def self.alphabetical
-    @@all.map {|songs| songs.name}.sort
+    @@all.sort_by{|songs| songs.name} 
+    
   end 
+  
+  
+  
+  def self.new_from_filename(string)
+    array = string.split(" - ")
+    name_of_song = array[1].delete_suffix(".mp3")
+    name_of_artist = array[0]
+    
+    song = self.new
+    
+   song.name = name_of_song 
+   
+   song.artist_name = name_of_artist
+    
+  song
+   end
+   
+   def self.create_from_filename(string)
+       array = string.split(" - ")
+    name_of_song = array[1].delete_suffix(".mp3")
+    name_of_artist = array[0]
+    
+    song = self.new
+    
+   song.name = name_of_song 
+   
+   song.artist_name = name_of_artist
+   
+   song.save
+    
+  song
+     
+   end
+
+  
+  
+  def self.destroy_all
+    @@all.clear
+  end
   
 
 end
